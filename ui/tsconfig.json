@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "target": "ESNext",
+        "noImplicitAny": true,
+        "module": "ESNext",
+        "lib": [
+            "ES6",
+            "DOM",
+            "DOM.Iterable",
+            "ESNext"
+        ],
+        "allowSyntheticDefaultImports": true,
+        "jsx": "react",
+        "allowJs": true,
+        "moduleResolution": "node"
+    }
+}
