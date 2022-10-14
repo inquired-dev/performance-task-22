@@ -16,20 +16,30 @@ The Grade calculator has been live for a few years now and students & teachers l
 
 We've also noticed a bug in the calculator. When a teacher copy-pastes scores, the scores calculated are coming out incorrectly.
 
+OR checking numbers as truthy/falsy but ignoring 0, Maybe some sort of filter logic fail 
+OR what could an edge case be?
+
+
 Two of our Jr. developers has put in Pull Requests to development with the following changes:
 
 Our Jr. Back End Developer put in the following Description in their PR
 "Adds Quiz as a Criteria to the calculation service."
 
+Issues:
+- Truthy/Falsy on number 
+
 Our Jr. Front End Developer out in a PR with the following description:
 "Adds quiz to score output"
+
+Issues:
+- Should forget to validate input
 
 ## Your Tasks
 As a mid-level engineer, you will be responsible for providing high quality code and solutions. In addition to that, it is our responsibility as a team to help create an environment for growth and development among all levels of engineers. In doing so, we've asked all developers, no matter their level, to participate in Code Reviews.
 
 1. You've been tasked to review and comment on both Pull Requests and make sure the code is clean, readable and tested. You should offer any changes to be made and why.
-2. Create and submit a PR to fix the calculation bug.
-3. Complete the "Getting Started" README.md
+2. Create and submit a PR to fix the ______ bug.
+3. Complete the "Getting Started" README.md 
 
 
 ## Deliverables
@@ -39,7 +49,7 @@ As a mid-level engineer, you will be responsible for providing high quality code
 
 
 ## Notes
-Please do not spend more than 2 hours on this task. It is more important to us that you can explain your thought process, methodologies and experience during the work asked. We are not expecting every bug and issue to be completed end-to-end, but it is important that you know and understand the framework.
+Please do not spend more than 2 hours on this task. It is more important to us that you can explain your thought process, methodologies and experiences during the work asked. We are not expecting every bug and issue to be completed end-to-end, but it is important that you know and understand the framework.
 
 Good Luck!
 
