@@ -1,10 +1,9 @@
 import express from 'express';
+import Router from './routes';
 
 var app = express();
 
-app.get('/', function (req, res) {
-   res.send('Hello Worlds');
-})
+Router(app);
 
 var server = app.listen(8081, function () {
    const address: any = server.address();
