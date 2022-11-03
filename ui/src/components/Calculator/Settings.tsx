@@ -1,14 +1,15 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Box, Button, Divider, InputLabel, Paper, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, Divider, IconButton, InputLabel, Paper, Snackbar, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import { Percent } from '@mui/icons-material';
+import { Close, Percent } from '@mui/icons-material';
 
 const Settings = () => {
 
     const navigate = useNavigate();
     const [ totalError, setTotalError ] = useState(false);
+    const [ feedback, setFeedback ] = useState('');
 
     const formik = useFormik({
         initialValues: {
@@ -30,8 +31,7 @@ const Settings = () => {
                     headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
                     body: JSON.stringify(values)
                 }).then(res => res.json()).catch(console.error);
-                console.log(result);
-                // set some kind of message
+                setFeedback(result);
             }
         }
     });
@@ -143,6 +143,28 @@ const Settings = () => {
                     </Box>
                 </Paper>
             </Box>
+            <Snackbar
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                open={!!feedback}
+                onClose={() => setFeedback('')}
+                transitionDuration={{ appear: 500, exit: 0 }}
+            >
+                <Alert
+                    severity='info'
+                    action={
+                        <IconButton
+                            size="small"
+                            aria-label="close"
+                            color="inherit"
+                            onClick={() => setFeedback('')}
+                        >
+                            <Close fontSize="small" />
+                        </IconButton>
+                    }
+                >
+                    {feedback}
+                </Alert>
+            </Snackbar>
         </Box>
     );
 };

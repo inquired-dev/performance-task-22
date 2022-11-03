@@ -16,7 +16,7 @@ const getSettings = (req: Request, res: Response) => {
 };
 
 const updateWeightValues = (req: Request, res: Response) => {
-    const settings = req.body;
+    const settings: GradeWeightSettings = req.body;
     if ( !settings ){
         res.status(400).send('Invalid values');
     }
