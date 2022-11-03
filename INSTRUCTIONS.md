@@ -19,6 +19,8 @@ A Jr. developer has put in Pull Requests to development with the following chang
 Our Jr. Developer put in the following Description in their PR
 "Adds Quiz as a Criteria to the calculation service."
 
+Please treat this task as a real-life scenario more than just an assessment.
+
 ## Your Tasks
 As a mid-level engineer, you will be responsible for providing high quality code and solutions. In addition to that, it is our responsibility as a team to help create an environment for growth and development among all levels of engineers. In doing so, we've asked all developers, no matter their level, to participate in Code Reviews.
 
