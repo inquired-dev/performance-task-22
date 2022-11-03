@@ -2,7 +2,7 @@
 Thank you for taking the time to take the Full Stack Performance task. This task will gauge your TypeScript, ReactJS, NodeJS and team support capabilities.
 
 ## The App
-Our performance task app is a simple grade calculator. Our end users are students on a wide array of devices where they can access and calculate their potential grades.
+Our performance task app is a simple grade calculator. Our end users are teachers and students on a wide array of devices where they can access and calculate their potential grades.
 
 The App's Original User Stories were the following:
 
@@ -14,38 +14,29 @@ The App's Original User Stories were the following:
 ## The Situation
 The Grade calculator has been live for a few years now and students & teachers love the application and use it daily. However, we have gotten significant amount of requests to add a quizzes as a grading criteria. 
 
-We've also noticed a bug in the calculator. When a teacher copy-pastes scores, the scores calculated are coming out incorrectly.
+A Jr. developer has put in Pull Requests to development with the following changes:
 
-OR checking numbers as truthy/falsy but ignoring 0, Maybe some sort of filter logic fail 
-OR what could an edge case be?
-
-
-Two of our Jr. developers has put in Pull Requests to development with the following changes:
-
-Our Jr. Back End Developer put in the following Description in their PR
+Our Jr. Developer put in the following Description in their PR
 "Adds Quiz as a Criteria to the calculation service."
-
-Issues:
-- Truthy/Falsy on number 
-
-Our Jr. Front End Developer out in a PR with the following description:
-"Adds quiz to score output"
-
-Issues:
-- Should forget to validate input
 
 ## Your Tasks
 As a mid-level engineer, you will be responsible for providing high quality code and solutions. In addition to that, it is our responsibility as a team to help create an environment for growth and development among all levels of engineers. In doing so, we've asked all developers, no matter their level, to participate in Code Reviews.
 
-1. You've been tasked to review and comment on both Pull Requests and make sure the code is clean, readable and tested. You should offer any changes to be made and why.
-2. Create and submit a PR to fix the ______ bug.
-3. Complete the "Getting Started" README.md 
+1. Fork the repository. Make sure to UNCHECK the "copy main branch only" checkbox.
+2. You've been tasked to review and comment on the Pull Request and make sure the code works, is clean, readable and tested. You should offer any changes to be made and why.
+3. In your forked repository, add comments to the PR where you would make the changes.
+4. Create a copy of the `add_quizzes` branch and name it `add_quizzes_{your_name}`
+5. Create a Pull Request from the `add_quizzes_{your_name}` branch to main on the upstream repo
 
+NOTE: In order to show us your notes on the PR, you will either need to come ready with a google doc with line numbers and comments
+
+OR
+
+You can create a NEW PR on YOUR fork from the original `add_quizzes` branch. From there you can annotate the PR using the tools provided by GitHub.
 
 ## Deliverables
-1. Have a document ready with the notes and lines of code where the JR developers need to improve or change their work. We will be going over the document on a call and you will drive the pull request review so your notes should reference line # and comments. **DO NOT LEAVE COMMENTS ON THE ACTUAL PR**.
-2. Be ready to step with us through a code review of your Pull Request. We will ask you why you did some things, why you didn't. Have a thorough understanding of what your code is doing and why.
-
+1. Notes and reasoning on the PR in the form of a well-documented review. Be sure to be ready to speak on any suggestion you make on the PR. Have a thorough understanding of what changes should be made and why.
+2. A pull request to the main branch from your updated code and be ready to have a code review of YOUR code.
 
 
 ## Notes
