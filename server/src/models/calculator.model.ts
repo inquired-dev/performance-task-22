@@ -1,4 +1,10 @@
+export type GradeWeightType = 'homework' | 'assessment'
+
 export interface Grade {
     points: number,
-    weight: 'homework' | 'assessment'
-};
+    weight: GradeWeightType
+}
+
+export type GradeWeightSettings = {
+    [key in GradeWeightType]: number
+}

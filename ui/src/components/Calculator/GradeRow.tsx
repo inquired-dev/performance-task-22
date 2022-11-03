@@ -1,16 +1,16 @@
 import React from 'react';
 import { Box, FormControlLabel, IconButton, InputLabel, Radio, RadioGroup, TextField, Typography } from '@mui/material';
 import { Grade } from './calculator.types';
-import { Close } from '@mui/icons-material'
+import { Close } from '@mui/icons-material';
 import { FormikErrors } from 'formik';
 
-interface GradeRowProps { 
+interface GradeRowProps {
     grade: Grade
     index: number
     error: FormikErrors<Grade> | undefined
     handleChange: (event: React.ChangeEvent, value: any, index: number) => void
     handleRemoveItem: () => void
-};
+}
 
 const StyledRadio = <Radio disableRipple size='small' sx={{ backgroundColor: 'unset !important' }} />;
 
@@ -20,7 +20,7 @@ const GradeRow = ({ grade, index, error, handleChange, handleRemoveItem }: Grade
         <InputLabel sx={{ marginRight: '5px' }}>Grade:</InputLabel>
         <TextField
             name='points'
-            onChange={event => handleChange(event, event.target.value.toString(), index)} 
+            onChange={event => handleChange(event, event.target.value.toString(), index)}
             size='small'
             type='number'
             value={grade.points.toString()}
