@@ -7,8 +7,12 @@ import { initialData } from './calculator.constants';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { getLetterGrade } from './calculator.service';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 const Calculator = () => {
+
+    const navigate = useNavigate();
+    const isTeacher = localStorage.getItem('isTeacher') === '1';
 
     const [ calculatorState, setCalculatorState ] = useState({
         classGrade: '',
@@ -22,13 +26,13 @@ const Calculator = () => {
             weight: yup.string()
         })),
         onSubmit: async (values: Grade[]) => {
-            const results = await fetch('http://localhost:8081/calculate', { 
-                    method: 'POST',
-                    mode: 'cors',
-                    headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }, 
-                    body: JSON.stringify(values) 
+            const results = await fetch('http://localhost:8081/calculate', {
+                method: 'POST',
+                mode: 'cors',
+                headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+                body: JSON.stringify(values)
             }).then(res => res.json())
-            .catch((error) => console.error(error));
+                .catch((error) => console.error(error));
             setCalculatorState({
                 classGrade: results.total,
                 letterGrade: getLetterGrade(results.total)
@@ -41,13 +45,13 @@ const Calculator = () => {
         const key = event.target.name as keyof Grade;
         let newGrade = { ...updated[index], [key]: value };
         if ( key === 'points' && ( +value < 0 || +value > 100 )) {
-            newGrade = { ...updated[index], points: +value < 0 ? 0 : 100 }
+            newGrade = { ...updated[index], points: +value < 0 ? 0 : 100 };
             updated[index] = newGrade;
             formik.setValues(updated);
             return;
-        } 
+        }
         if ( key === 'points' ) {
-            newGrade = { ...updated[index], points: Math.trunc(+value) }
+            newGrade = { ...updated[index], points: Math.trunc(+value) };
         }
         updated[index] = newGrade;
         formik.setValues(updated);
@@ -62,6 +66,10 @@ const Calculator = () => {
     const handleRemoveItem = (index: number) => {
         const updated = formik.values.filter((grade, gradeIndex) => index !== gradeIndex);
         formik.setValues(updated);
+    };
+
+    const handleSettings = () => {
+        navigate('/settings');
     };
 
     return (
@@ -88,7 +96,7 @@ const Calculator = () => {
                     </Box>
                     <Box textAlign='left' padding='10px 24px' borderBottom='2px solid #ddd'>
                         <Box>
-                            <Typography>Class Grade: {calculatorState.classGrade}</Typography>
+                            <Typography>Class Grade: {(+calculatorState.classGrade).toFixed(2)}</Typography>
                         </Box>
                         <Box>
                             <Typography>Letter Grade: {calculatorState.letterGrade}</Typography>
@@ -98,8 +106,14 @@ const Calculator = () => {
                         <Button variant='outlined' onClick={handleAddRow}>Add new grade</Button>
                         <Button variant='contained' type='submit'>Calculate</Button>
                     </Box>
+                    {isTeacher && (
+                        <Box paddingBottom='10px'>
+                            <Button onClick={handleSettings}>Settings</Button>
+                        </Box>
+                    )}
                 </Paper>
             </Box>
+            <Outlet />
         </Box>
     );
 };

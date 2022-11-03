@@ -1,4 +1,4 @@
-import { Grade } from "./calculator.types";
+import { Grade } from './calculator.types';
 
 export const initialData: Grade[] = [{
     points: 0,
