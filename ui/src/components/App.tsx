@@ -8,6 +8,8 @@ import TopNav from './Navigation/TopNav';
 
 const App = () => {
 
+    window.addEventListener('beforeunload', () => localStorage.removeItem('isTeacher'));
+
     return (
         <Container sx={{ height: '100vh', background: '#f6f6f6', paddingTop: '5rem' }}>
             <TopNav />

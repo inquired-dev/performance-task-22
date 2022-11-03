@@ -5,7 +5,12 @@ import { useNavigate } from 'react-router-dom';
 const Login = () => {
 
     const navigate = useNavigate();
-    const goToCalculator = () =>navigate('/calculator');
+    const goToCalculator = () => navigate('/calculator');
+
+    const handleStudentLogin = () => {
+        localStorage.removeItem('isTeacher');
+        goToCalculator();
+    };
 
     const handleTeacherLogin = () => {
         localStorage.setItem('isTeacher', '1');
@@ -17,7 +22,7 @@ const Login = () => {
             <Typography variant='h2'>Welcome!</Typography>
             <Typography variant='h4'>Are you a</Typography>
             <Box width='50%' margin='auto' display='flex' justifyContent='space-between'>
-                <Button variant='contained' color='primary' onClick={goToCalculator}>Student</Button>
+                <Button variant='contained' color='primary' onClick={handleStudentLogin}>Student</Button>
                 <Button variant='contained' color='secondary' onClick={handleTeacherLogin}>Teacher</Button>
             </Box>
         </Box>
