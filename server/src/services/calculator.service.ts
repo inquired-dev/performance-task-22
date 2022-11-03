@@ -9,9 +9,12 @@ const getAverage = (grades: number[], weight: number) => (
 export const calculateClassAverage = (grades: Grade[]) => {
     const homework: number[] = [];
     const assessments: number[] = [];
+    const quizzes: number[] = [];
     grades.map(grade => grade.weight === 'homework'
         ? homework.push(grade.points)
-        : assessments.push(grade.points)
+        : grade.weight === 'quiz'
+            ? quizzes.push(grade.points)
+            : assessments.push(grade.points)
     );
     const homeworkAvg = getAverage(homework, calcSettings.homework);
     const assessmentAvg = getAverage(assessments, calcSettings.assessments);
