@@ -14,10 +14,7 @@ The App's Original User Stories were the following:
 ## The Situation
 The Grade calculator has been live for a few years now and students & teachers love the application and use it daily. However, we have gotten significant amount of requests to add a quizzes as a grading criteria. 
 
-A Jr. developer has put in Pull Requests to development with the following changes:
-
-Our Jr. Developer put in the following Description in their PR
-"Adds Quiz as a Criteria to the calculation service."
+Our Jr. Developer titled their PR "Adds Quiz as a Criteria to the calculation service."
 
 Please treat this task as a real-life scenario more than just an assessment.
 
