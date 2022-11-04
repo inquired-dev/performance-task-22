@@ -118,6 +118,25 @@ const Settings = () => {
                                 sx={{ width: '100px' }}
                             />
                         </Box>
+                        <Box
+                            display='flex'
+                            marginBottom='10px'
+                            alignItems='center'
+                            justifyContent='space-between'
+                        >
+                            <InputLabel sx={{ marginRight: '5px', fontWeight: 'bold' }}>
+                                Quiz:
+                            </InputLabel>
+                            <TextField
+                                name='quizzes'
+                                type='number'
+                                value={(formik.values.assessments * 100)}
+                                InputProps={{ endAdornment: <Percent fontSize='small' /> }}
+                                onChange={handleChange}
+                                size='small'
+                                sx={{ width: '100px' }}
+                            />
+                        </Box>
                     </Box>
                     <Typography
                         textAlign='right'

@@ -1,4 +1,4 @@
-export type GradeWeightType = 'homework' | 'assessment'
+export type GradeWeightType = 'homework' | 'assessment' | 'quiz'
 
 export interface Grade {
     points: number,
