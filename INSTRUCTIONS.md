@@ -34,9 +34,9 @@ OR
 You can create a NEW PR on YOUR fork from the original `add_quizzes` branch. From there you can annotate the PR using the tools provided by GitHub.
 
 ## Deliverables
-1. Notes and reasoning on the PR in the form of a well-documented review. Be sure to be ready to speak on any suggestion you make on the PR. Have a thorough understanding of what changes should be made and why.
-2. A pull request to the main branch from your updated code and be ready to have a code review of YOUR code.
-
+1. The quiz feature built BY YOU.
+2. A pull request to the main branch from your updated code ( with the quiz feature ) and be ready to have a code review of YOUR code.
+3. Notes and reasoning on the Jr Dev. PR in the form of a well-documented review. Be sure to be ready to speak on any suggestion you make on the PR. Have a thorough understanding of what changes should be made and why. You should not make a PR to add notes to the Jr. PR. We will go over that on the call.
 
 ## Notes
 Please do not spend more than 2 hours on this task. It is more important to us that you can explain your thought process, methodologies and experiences during the work asked. We are not expecting every bug and issue to be completed end-to-end, but it is important that you know and understand the framework.
