@@ -77,7 +77,7 @@ const Calculator = () => {
             <Box
                 component='form'
                 onSubmit={formik.handleSubmit}
-                width='550px'
+                width='600px'
                 height='550px'
                 margin='auto'
                 paddingTop='5rem'>
