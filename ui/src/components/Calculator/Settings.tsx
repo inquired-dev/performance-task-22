@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { Close, Percent } from '@mui/icons-material';
+import { serverURL } from './calculator.constants';
 
 const Settings = () => {
 
@@ -27,7 +28,7 @@ const Settings = () => {
             const validated = validateTotal();
             if ( validated ) {
                 //submit
-                const result = await fetch('http://localhost:8081/settings', {
+                const result = await fetch(`${serverURL}/settings`, {
                     method: 'POST',
                     mode: 'cors',
                     headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
@@ -41,7 +42,7 @@ const Settings = () => {
     useEffect(() => {
         // fetch initial weight data:
         const getSettings = async () => {
-            const result = await fetch('http://localhost:8081/settings')
+            const result = await fetch(`${serverURL}/settings`)
                 .then(res => res.json()).catch(console.error);
             if ( result ) {
                 formik.setValues(result);

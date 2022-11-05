@@ -3,7 +3,7 @@ import { Box, Button, Paper, Typography } from '@mui/material';
 import { calculatorStyles, gradeRowsStyles } from './calculator.styles';
 import GradeRow from './GradeRow';
 import { Grade, GradeWeight } from './calculator.types';
-import { initialData } from './calculator.constants';
+import { initialData, serverURL } from './calculator.constants';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { getLetterGrade } from './calculator.service';
@@ -26,7 +26,7 @@ const Calculator = () => {
             weight: yup.string()
         })),
         onSubmit: async (values: Grade[]) => {
-            const results = await fetch('http://localhost:8081/calculate', {
+            const results = await fetch(`${serverURL}/calculate`, {
                 method: 'POST',
                 mode: 'cors',
                 headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
