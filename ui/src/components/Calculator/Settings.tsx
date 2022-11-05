@@ -8,22 +8,24 @@ import { Close, Percent } from '@mui/icons-material';
 const Settings = () => {
 
     const navigate = useNavigate();
-    const [ totalError, setTotalError ] = useState(false);
-    const [ feedback, setFeedback ] = useState('');
+    const [totalError, setTotalError] = useState(false);
+    const [feedback, setFeedback] = useState('');
 
     const formik = useFormik({
         initialValues: {
             homework: 0,
-            assessments: 0
+            assessments: 0,
+            quizzes: 0
         },
         enableReinitialize: true,
         validationSchema: yup.object({
             homework: yup.number(),
             assessments: yup.number(),
+            quizzes: yup.number(),
         }),
-        onSubmit: async (values: {[key: string]: number}) => {
+        onSubmit: async (values: { [key: string]: number }) => {
             const validated = validateTotal();
-            if ( validated ) {
+            if (validated) {
                 //submit
                 const result = await fetch('http://localhost:8081/settings', {
                     method: 'POST',
@@ -41,14 +43,14 @@ const Settings = () => {
         const getSettings = async () => {
             const result = await fetch('http://localhost:8081/settings')
                 .then(res => res.json()).catch(console.error);
-            if ( result ) {
+            if (result) {
                 formik.setValues(result);
             }
         };
         getSettings();
     }, []);
 
-    const getTotal = () => Math.round((formik.values.homework + formik.values.assessments) * 100);
+    const getTotal = () => Math.round((formik.values.homework + formik.values.assessments + formik.values.quizzes) * 100);
 
     const validateTotal = () => {
         const total = getTotal();
@@ -58,7 +60,7 @@ const Settings = () => {
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
-        if ( +value < 0 || +value > 100 ) {
+        if (+value < 0 || +value > 100) {
             return;
         }
         const converted = +value / 100;
@@ -130,7 +132,7 @@ const Settings = () => {
                             <TextField
                                 name='quizzes'
                                 type='number'
-                                value={(formik.values.assessments * 100)}
+                                value={(formik.values.quizzes * 100)}
                                 InputProps={{ endAdornment: <Percent fontSize='small' /> }}
                                 onChange={handleChange}
                                 size='small'
