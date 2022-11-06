@@ -31,7 +31,8 @@ export const calculateClassAverage = (grades: Grade[]) => {
     });
     const homeworkAvg = getAverage(homeworks, calcSettings.homework);
     const assessmentAvg = getAverage(assessments, calcSettings.assessment);
-    const total = homeworkAvg + assessmentAvg;
+    const quizAvg = getAverage(quizzes, calcSettings.quiz);
+    const total = homeworkAvg + assessmentAvg + quizAvg;
 
     return { total: total.toString() };
 };
