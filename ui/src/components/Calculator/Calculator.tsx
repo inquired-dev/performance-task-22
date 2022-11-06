@@ -2,12 +2,17 @@ import React, { useState } from 'react';
 import { Box, Button, Paper, Typography } from '@mui/material';
 import { calculatorStyles, gradeRowsStyles } from './calculator.styles';
 import GradeRow from './GradeRow';
-import { Grade, GradeWeight } from './calculator.types';
-import { initialData } from './calculator.constants';
+import { Grade, GradeWeight, FormData } from './calculator.types';
+import { initialData, serverURL } from './calculator.constants';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { getLetterGrade } from './calculator.service';
 import { Outlet, useNavigate } from 'react-router-dom';
+
+let topId = 1;
+const getNewId = (): number => {
+    return topId ++;
+};
 
 const Calculator = () => {
 
@@ -22,15 +27,20 @@ const Calculator = () => {
     const formik = useFormik({
         initialValues: initialData,
         validationSchema: yup.array().of(yup.object({
+            id: yup.number(),
             points: yup.number().min(0).max(100),
             weight: yup.string()
         })),
-        onSubmit: async (values: Grade[]) => {
-            const results = await fetch('http://localhost:8081/calculate', {
+        onSubmit: async (values: FormData[]) => {
+            const grades = values.map(value => ({
+                points: value.points,
+                weight: value.weight
+            } as Grade));
+            const results = await fetch(`${serverURL}/calculate`, {
                 method: 'POST',
                 mode: 'cors',
                 headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-                body: JSON.stringify(values)
+                body: JSON.stringify(grades)
             }).then(res => res.json())
                 .catch((error) => console.error(error));
             setCalculatorState({
@@ -40,10 +50,11 @@ const Calculator = () => {
         }
     });
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>, value: GradeWeight | string, index: number) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>, value: GradeWeight | string, id: number) => {
+        const index = formik.values.findIndex(value => value.id === id);
         const updated = [ ...formik.values ];
         const key = event.target.name as keyof Grade;
-        let newGrade = { ...updated[index], [key]: value };
+        let newGrade = { ...updated[index], [key]: value, id: getNewId() };
         if ( key === 'points' && ( +value < 0 || +value > 100 )) {
             newGrade = { ...updated[index], points: +value < 0 ? 0 : 100 };
             updated[index] = newGrade;
@@ -59,11 +70,12 @@ const Calculator = () => {
 
     const handleAddRow = () => {
         const updated = [ ...formik.values ];
-        updated.push({ points: 0, weight: 'homework' });
+        updated.push({ points: 0, weight: 'homework', id: getNewId() });
         formik.setValues(updated);
     };
 
-    const handleRemoveItem = (index: number) => {
+    const handleRemoveItem = (id: number) => {
+        const index = formik.values.findIndex(value => value.id === id);
         const updated = formik.values.filter((grade, gradeIndex) => index !== gradeIndex);
         formik.setValues(updated);
     };
@@ -77,7 +89,7 @@ const Calculator = () => {
             <Box
                 component='form'
                 onSubmit={formik.handleSubmit}
-                width='550px'
+                width='600px'
                 height='550px'
                 margin='auto'
                 paddingTop='5rem'>
@@ -86,9 +98,10 @@ const Calculator = () => {
                     <Box sx={gradeRowsStyles}>
                         {formik.values.map((grade, index) => (
                             <GradeRow
-                                key={`grade-row-${index}`}
+                                key={`grade-row-${grade.id}`}
                                 grade={grade}
                                 index={index}
+                                isRemovable={formik.values.length !== 1}
                                 error={formik.touched[index] && formik.errors[index]}
                                 handleChange={handleChange}
                                 handleRemoveItem={() => handleRemoveItem(index)} />

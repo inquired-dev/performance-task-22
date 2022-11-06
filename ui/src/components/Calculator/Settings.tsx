@@ -14,12 +14,14 @@ const Settings = () => {
     const formik = useFormik({
         initialValues: {
             homework: 0,
-            assessments: 0
+            assessment: 0,
+            quiz: 0,
         },
         enableReinitialize: true,
         validationSchema: yup.object({
             homework: yup.number(),
-            assessments: yup.number(),
+            assessment: yup.number(),
+            quiz: yup.number()
         }),
         onSubmit: async (values: {[key: string]: number}) => {
             const validated = validateTotal();
@@ -48,7 +50,7 @@ const Settings = () => {
         getSettings();
     }, []);
 
-    const getTotal = () => Math.round((formik.values.homework + formik.values.assessments) * 100);
+    const getTotal = () => Math.round((formik.values.homework + formik.values.assessment + formik.values.quiz) * 100);
 
     const validateTotal = () => {
         const total = getTotal();
@@ -109,9 +111,9 @@ const Settings = () => {
                                 Assessment:
                             </InputLabel>
                             <TextField
-                                name='assessments'
+                                name='assessment'
                                 type='number'
-                                value={(formik.values.assessments * 100)}
+                                value={(formik.values.assessment * 100)}
                                 InputProps={{ endAdornment: <Percent fontSize='small' /> }}
                                 onChange={handleChange}
                                 size='small'
@@ -128,9 +130,9 @@ const Settings = () => {
                                 Quiz:
                             </InputLabel>
                             <TextField
-                                name='quizzes'
+                                name='quiz'
                                 type='number'
-                                value={(formik.values.assessments * 100)}
+                                value={(formik.values.quiz * 100)}
                                 InputProps={{ endAdornment: <Percent fontSize='small' /> }}
                                 onChange={handleChange}
                                 size='small'
