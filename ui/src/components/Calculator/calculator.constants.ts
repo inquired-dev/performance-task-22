@@ -1,9 +1,9 @@
-import { Grade } from './calculator.types';
+import { FormData } from './calculator.types';
 
-export const initialData: Grade[] = [{
+export const initialData: FormData[] = [{
+    id: 0,
     points: 0,
     weight: 'homework'
-},{
-    points: 0,
-    weight: 'assessment'
 }];
+
+export const serverURL = 'http://localhost:8081';
