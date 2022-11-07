@@ -10,15 +10,25 @@ export const calculateClassAverage = (grades: Grade[]) => {
     const homework: number[] = [];
     const assessments: number[] = [];
     const quizzes: number[] = [];
-    grades.map(grade => grade.weight === 'homework'
-        ? homework.push(grade.points)
-        : grade.weight === 'quiz'
-            ? quizzes.push(grade.points)
-            : assessments.push(grade.points)
-    );
+    grades.map(grade => {
+        switch(grade.weight) {
+            case 'homework':
+                homework.push(grade.points);
+                break;
+            case 'assessment':
+                assessments.push(grade.points);
+                break;
+            case 'quiz':
+                quizzes.push(grade.points);
+                break;
+            default:
+                break;
+        }
+    });
     const homeworkAvg = getAverage(homework, calcSettings.homework);
     const assessmentAvg = getAverage(assessments, calcSettings.assessments);
-    const total = homeworkAvg + assessmentAvg;
+    const quizzesAvg = getAverage(quizzes, calcSettings.quiz);
+    const total = homeworkAvg + assessmentAvg + quizzesAvg;
 
     return { total: total.toString() };
 };
