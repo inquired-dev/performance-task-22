@@ -4,9 +4,12 @@ import { calculateClassAverage, getWeightSettings, updateGradeWeightValues } fro
 
 const calculate = (req: Request, res: Response) => {
     const grades: Grade[] = req.body;
-    if ( !grades ){
-        res.status(400).send('Invalid values');
+    
+    if (!grades || !grades.length){
+        return res.status(400).send('Invalid values');
     }
+        
+
     const results = calculateClassAverage(grades)
     res.send(results);
 };
@@ -17,9 +20,11 @@ const getSettings = (req: Request, res: Response) => {
 
 const updateWeightValues = (req: Request, res: Response) => {
     const settings: GradeWeightSettings = req.body;
-    if ( !settings ){
-        res.status(400).send('Invalid values');
-    }
+    if (!settings){
+        return res.status(400).send('Invalid values');
+    } 
+        
+    
     try {
         updateGradeWeightValues(settings)
         res.status(200).send(JSON.stringify('Successfully updated grade weights'))
