@@ -1,7 +1,7 @@
 export type GradeWeight = 'homework' | 'assessment' | 'quiz';
 
 export interface Grade {
-    id:string
+    id: string
     points: number
     weight: GradeWeight
 }

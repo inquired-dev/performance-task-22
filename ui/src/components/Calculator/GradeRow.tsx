@@ -10,12 +10,12 @@ interface GradeRowProps {
     error: FormikErrors<Grade> | undefined
     handleChange: (event: React.ChangeEvent, value: any, index: number) => void
     handleRemoveItem: () => void
-    isRemovable:boolean
+    isRemovable: boolean
 }
 
 const StyledRadio = <Radio disableRipple size='small' sx={{ backgroundColor: 'unset !important' }} />;
 
-const GradeRow = ({ grade, index, error, handleChange, handleRemoveItem , isRemovable }: GradeRowProps) => (
+const GradeRow = ({ grade, index, error, handleChange, handleRemoveItem, isRemovable }: GradeRowProps) => (
     <Box display='flex' alignItems='center' margin='5px' padding='0px 10px'>
         <Typography width='24px' marginRight='5px'>{index + 1}.</Typography>
         <InputLabel sx={{ marginRight: '5px' }}>Grade:</InputLabel>

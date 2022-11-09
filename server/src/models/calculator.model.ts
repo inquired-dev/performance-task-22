@@ -8,7 +8,3 @@ export interface Grade {
 export type GradeWeightSettings = {
     [key in GradeWeightType]: number
 }
-
-export interface Settings{
-    [key: string]: number
-}

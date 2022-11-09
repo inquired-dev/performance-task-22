@@ -1,7 +1,8 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState, useCallback } from 'react';
 import { Alert, Box, Button, Divider, IconButton, InputLabel, Paper, Snackbar, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
+import { serverUrl } from './calculator.constants'
 import * as yup from 'yup';
 import { Close, Percent } from '@mui/icons-material';
 
@@ -14,7 +15,7 @@ const Settings = () => {
     const formik = useFormik({
         initialValues: {
             homework: 0,
-            assessments: 0,
+            assessment: 0,
             quiz: 0
         },
         enableReinitialize: true,
@@ -27,7 +28,7 @@ const Settings = () => {
             const validated = validateTotal();
             if (validated) {
                 //submit
-                const result = await fetch('http://localhost:8081/settings', {
+                const result = await fetch(`${serverUrl}/settings`, {
                     method: 'POST',
                     mode: 'cors',
                     headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
@@ -41,7 +42,7 @@ const Settings = () => {
     useEffect(() => {
         // fetch initial weight data:
         const getSettings = async () => {
-            const result = await fetch('http://localhost:8081/settings')
+            const result = await fetch(`${serverUrl}/settings`)
                 .then(res => res.json()).catch(console.error);
             if (result) {
                 formik.setValues(result);
@@ -50,22 +51,28 @@ const Settings = () => {
         getSettings();
     }, []);
 
-    const getTotal = () => Math.round((formik.values.homework + formik.values.assessment + formik.values.quiz) * 100);
+    const getTotal = useCallback(
+        () => Math.round((formik.values.homework + formik.values.assessment + formik.values.quiz) * 100),
+        [formik.values]
+    );
 
-    const validateTotal = () => {
+    const validateTotal = useCallback(() => {
         const total = getTotal();
         setTotalError(total !== 100);
         return total === 100;
-    };
+    }, [getTotal]);
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        if (+value < 0 || +value > 100) {
-            return;
-        }
-        const converted = +value / 100;
-        formik.setFieldValue(name, converted);
-    };
+    const handleChange = useCallback(
+        (event: ChangeEvent<HTMLInputElement>) => {
+            const { name, value } = event.target;
+            if (+value < 0 || +value > 100) {
+                return;
+            }
+            const converted = +value / 100;
+            formik.setFieldValue(name, converted);
+        },
+        [formik.setFieldValue]
+    );
 
     return (
         <Box paddingTop='5rem'>

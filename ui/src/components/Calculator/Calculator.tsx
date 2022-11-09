@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Box, Button, Paper, Typography } from '@mui/material';
 import { calculatorStyles, gradeRowsStyles } from './calculator.styles';
 import GradeRow from './GradeRow';
-import { Grade, GradeWeight  } from './calculator.types';
-import { initialData , serverUrl } from './calculator.constants';
+import { Grade, GradeWeight } from './calculator.types';
+import { initialData, serverUrl } from './calculator.constants';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { getLetterGrade } from './calculator.service';
@@ -15,7 +15,7 @@ const Calculator = () => {
     const navigate = useNavigate();
     const isTeacher = localStorage.getItem('isTeacher') === '1';
 
-    const [ calculatorState, setCalculatorState ] = useState({
+    const [calculatorState, setCalculatorState] = useState({
         classGrade: '',
         letterGrade: ''
     });
@@ -23,7 +23,7 @@ const Calculator = () => {
     const formik = useFormik({
         initialValues: initialData,
         validationSchema: yup.array().of(yup.object({
-            id:yup.string(),
+            id: yup.string(),
             points: yup.number().min(0).max(100),
             weight: yup.string()
         })),
@@ -47,17 +47,16 @@ const Calculator = () => {
     });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>, value: GradeWeight | string, index: number) => {
-        const updated = [ ...formik.values ];
+        const updated = [...formik.values];
         const key = event.target.name as keyof Grade;
         let newGrade = { ...updated[index], [key]: value };
-        console.log("plus value is" , +value)
-        if ( key === 'points' && ( +value < 0 || +value > 100 )) {
+        if (key === 'points' && (+value < 0 || +value > 100)) {
             newGrade = { ...updated[index], points: +value < 0 ? 0 : 100 };
             updated[index] = newGrade;
             formik.setValues(updated);
             return;
         }
-        if ( key === 'points' ) {
+        if (key === 'points') {
             newGrade = { ...updated[index], points: Math.trunc(+value) };
         }
         updated[index] = newGrade;
@@ -65,8 +64,8 @@ const Calculator = () => {
     };
 
     const handleAddRow = () => {
-        const updated = [ ...formik.values ];
-        updated.push({ id:uuidv4(),    points: 0, weight: 'homework' });
+        const updated = [...formik.values];
+        updated.push({ id: uuidv4(), points: 0, weight: 'homework' });
         formik.setValues(updated);
     };
 
@@ -84,7 +83,7 @@ const Calculator = () => {
             <Box
                 component='form'
                 onSubmit={formik.handleSubmit}
-                width='600px'
+                width='560px'
                 height='550px'
                 margin='auto'
                 paddingTop='5rem'>
