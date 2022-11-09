@@ -10,11 +10,12 @@ interface GradeRowProps {
     error: FormikErrors<Grade> | undefined
     handleChange: (event: React.ChangeEvent, value: any, index: number) => void
     handleRemoveItem: () => void
+    isRemovable:boolean
 }
 
 const StyledRadio = <Radio disableRipple size='small' sx={{ backgroundColor: 'unset !important' }} />;
 
-const GradeRow = ({ grade, index, error, handleChange, handleRemoveItem }: GradeRowProps) => (
+const GradeRow = ({ grade, index, error, handleChange, handleRemoveItem , isRemovable }: GradeRowProps) => (
     <Box display='flex' alignItems='center' margin='5px' padding='0px 10px'>
         <Typography width='24px' marginRight='5px'>{index + 1}.</Typography>
         <InputLabel sx={{ marginRight: '5px' }}>Grade:</InputLabel>
@@ -30,8 +31,9 @@ const GradeRow = ({ grade, index, error, handleChange, handleRemoveItem }: Grade
         <RadioGroup name='weight' row value={grade.weight} onChange={(event, value) => handleChange(event, value, index)}>
             <FormControlLabel value='homework' control={StyledRadio} label="Homework" />
             <FormControlLabel value='assessment' control={StyledRadio} label="Test" />
+            <FormControlLabel value='quiz' control={StyledRadio} label="Quiz" />
         </RadioGroup>
-        {index > 0 && (
+        {isRemovable && (
             <IconButton color='error' size='small' onClick={handleRemoveItem} sx={{ marginLeft: 'auto' }}>
                 <Close />
             </IconButton>

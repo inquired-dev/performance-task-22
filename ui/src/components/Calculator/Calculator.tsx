@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { Box, Button, Paper, Typography } from '@mui/material';
 import { calculatorStyles, gradeRowsStyles } from './calculator.styles';
 import GradeRow from './GradeRow';
-import { Grade, GradeWeight } from './calculator.types';
-import { initialData } from './calculator.constants';
+import { Grade, GradeWeight  } from './calculator.types';
+import { initialData , serverUrl } from './calculator.constants';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { getLetterGrade } from './calculator.service';
 import { Outlet, useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
 const Calculator = () => {
 
@@ -22,15 +23,20 @@ const Calculator = () => {
     const formik = useFormik({
         initialValues: initialData,
         validationSchema: yup.array().of(yup.object({
+            id:yup.string(),
             points: yup.number().min(0).max(100),
             weight: yup.string()
         })),
         onSubmit: async (values: Grade[]) => {
-            const results = await fetch('http://localhost:8081/calculate', {
+            const grades = values.map(value => ({
+                points: value.points,
+                weight: value.weight
+            }));
+            const results = await fetch(`${serverUrl}/calculate`, {
                 method: 'POST',
                 mode: 'cors',
                 headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-                body: JSON.stringify(values)
+                body: JSON.stringify(grades)
             }).then(res => res.json())
                 .catch((error) => console.error(error));
             setCalculatorState({
@@ -44,6 +50,7 @@ const Calculator = () => {
         const updated = [ ...formik.values ];
         const key = event.target.name as keyof Grade;
         let newGrade = { ...updated[index], [key]: value };
+        console.log("plus value is" , +value)
         if ( key === 'points' && ( +value < 0 || +value > 100 )) {
             newGrade = { ...updated[index], points: +value < 0 ? 0 : 100 };
             updated[index] = newGrade;
@@ -59,12 +66,12 @@ const Calculator = () => {
 
     const handleAddRow = () => {
         const updated = [ ...formik.values ];
-        updated.push({ points: 0, weight: 'homework' });
+        updated.push({ id:uuidv4(),    points: 0, weight: 'homework' });
         formik.setValues(updated);
     };
 
-    const handleRemoveItem = (index: number) => {
-        const updated = formik.values.filter((grade, gradeIndex) => index !== gradeIndex);
+    const handleRemoveItem = (id: string) => {
+        const updated = formik.values.filter((grade) => id !== grade.id);
         formik.setValues(updated);
     };
 
@@ -77,7 +84,7 @@ const Calculator = () => {
             <Box
                 component='form'
                 onSubmit={formik.handleSubmit}
-                width='500px'
+                width='600px'
                 height='550px'
                 margin='auto'
                 paddingTop='5rem'>
@@ -86,12 +93,13 @@ const Calculator = () => {
                     <Box sx={gradeRowsStyles}>
                         {formik.values.map((grade, index) => (
                             <GradeRow
-                                key={`grade-row-${index}`}
+                                key={`grade-row-${grade.id}`}
                                 grade={grade}
                                 index={index}
                                 error={formik.touched[index] && formik.errors[index]}
                                 handleChange={handleChange}
-                                handleRemoveItem={() => handleRemoveItem(index)} />
+                                isRemovable={formik.values.length > 1}
+                                handleRemoveItem={() => handleRemoveItem(grade.id)} />
                         ))}
                     </Box>
                     <Box textAlign='left' padding='10px 24px' borderBottom='2px solid #ddd'>
