@@ -89,7 +89,6 @@ const Settings = () => {
                     </Typography>
                     <Divider />
                     <Box width='50%' margin='auto' padding='20px'>
-
                         <Box
                             display='flex'
                             marginBottom='10px'
@@ -147,7 +146,6 @@ const Settings = () => {
                                 sx={{ width: '100px' }}
                             />
                         </Box>
-
                     </Box>
                     <Typography
                         textAlign='right'

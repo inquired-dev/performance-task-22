@@ -1,5 +1,6 @@
 import { Grade } from './calculator.types';
 import { v4 as uuidv4 } from 'uuid';
+
 export const initialData: Grade[] = [{
     id: uuidv4(),
     points: 0,

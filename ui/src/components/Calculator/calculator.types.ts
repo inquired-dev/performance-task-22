@@ -5,6 +5,3 @@ export interface Grade {
     points: number
     weight: GradeWeight
 }
-
-
-
