@@ -2,6 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Alert, Box, Button, Divider, IconButton, InputLabel, Paper, Snackbar, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
+import { serverURL } from './calculator.constants';
 import * as yup from 'yup';
 import { Close, Percent } from '@mui/icons-material';
 
@@ -14,18 +15,20 @@ const Settings = () => {
     const formik = useFormik({
         initialValues: {
             homework: 0,
-            assessments: 0
+            assessment: 0,
+            quiz: 0,
         },
         enableReinitialize: true,
         validationSchema: yup.object({
             homework: yup.number(),
-            assessments: yup.number(),
+            assessment: yup.number(),
+            quiz: yup.number(),
         }),
         onSubmit: async (values: {[key: string]: number}) => {
             const validated = validateTotal();
             if ( validated ) {
                 //submit
-                const result = await fetch('http://localhost:8081/settings', {
+                const result = await fetch(`${serverURL}/settings`, {
                     method: 'POST',
                     mode: 'cors',
                     headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
@@ -39,7 +42,7 @@ const Settings = () => {
     useEffect(() => {
         // fetch initial weight data:
         const getSettings = async () => {
-            const result = await fetch('http://localhost:8081/settings')
+            const result = await fetch(`${serverURL}/settings`)
                 .then(res => res.json()).catch(console.error);
             if ( result ) {
                 formik.setValues(result);
@@ -48,7 +51,7 @@ const Settings = () => {
         getSettings();
     }, []);
 
-    const getTotal = () => Math.round((formik.values.homework + formik.values.assessments) * 100);
+    const getTotal = () => Math.round((formik.values.homework + formik.values.assessment + formik.values.quiz) * 100);
 
     const validateTotal = () => {
         const total = getTotal();
@@ -109,9 +112,28 @@ const Settings = () => {
                                 Assessment:
                             </InputLabel>
                             <TextField
-                                name='assessments'
+                                name='assessment'
                                 type='number'
-                                value={(formik.values.assessments * 100)}
+                                value={(formik.values.assessment * 100)}
+                                InputProps={{ endAdornment: <Percent fontSize='small' /> }}
+                                onChange={handleChange}
+                                size='small'
+                                sx={{ width: '100px' }}
+                            />
+                        </Box>
+                        <Box
+                            display='flex'
+                            marginBottom='10px'
+                            alignItems='center'
+                            justifyContent='space-between'
+                        >
+                            <InputLabel sx={{ marginRight: '5px', fontWeight: 'bold' }}>
+                                Quiz:
+                            </InputLabel>
+                            <TextField
+                                name='quiz'
+                                type='number'
+                                value={(formik.values.quiz * 100)}
                                 InputProps={{ endAdornment: <Percent fontSize='small' /> }}
                                 onChange={handleChange}
                                 size='small'

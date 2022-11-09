@@ -3,19 +3,22 @@ import calcSettings from '../db/calcSettings.json';
 import fs from 'fs';
 
 const getAverage = (grades: number[], weight: number) => (
-    (((grades.reduce((b, a) => a + b)) / (grades.length * 100)) * 100) * weight
+    grades.length>0?(((grades.reduce((b, a) => a + b)) / (grades.length * 100)) * 100) * weight:0
 );
 
 export const calculateClassAverage = (grades: Grade[]) => {
-    const homework: number[] = [];
+    const homeworks: number[] = [];
     const assessments: number[] = [];
+    const quizzez: number[] = [];
     grades.map(grade => grade.weight === 'homework'
-        ? homework.push(grade.points)
-        : assessments.push(grade.points)
-    );
-    const homeworkAvg = getAverage(homework, calcSettings.homework);
-    const assessmentAvg = getAverage(assessments, calcSettings.assessments);
-    const total = homeworkAvg + assessmentAvg;
+        ? homeworks.push(grade.points)
+        : grade.weight === 'quiz'
+            ? quizzez.push(grade.points)
+            : assessments.push(grade.points));
+    const homeworkAvg = getAverage(homeworks, calcSettings.homework);
+    const assessmentAvg = getAverage(assessments, calcSettings.assessment);
+    const quizAvg = getAverage(quizzez, calcSettings.quiz);
+    const total = homeworkAvg + assessmentAvg + quizAvg;
 
     return { total: total.toString() };
 };
@@ -25,12 +28,12 @@ export const getWeightSettings = () => {
 };
 
 export const updateGradeWeightValues = (settings: GradeWeightSettings) => fs.writeFile(
-    './src/db/calcSettings.json', 
-    JSON.stringify(settings), 
+    './src/db/calcSettings.json',
+    JSON.stringify(settings),
     function (err) {
         if (err) {
             console.log(err);
         }
         console.log('writing to calcSettings.json');
-    } 
+    }
 );
