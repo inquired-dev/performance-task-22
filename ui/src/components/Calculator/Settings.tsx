@@ -14,12 +14,14 @@ const Settings = () => {
     const formik = useFormik({
         initialValues: {
             homework: 0,
-            assessments: 0
+            assessments: 0,
+            quiz: 0
         },
         enableReinitialize: true,
         validationSchema: yup.object({
             homework: yup.number(),
             assessments: yup.number(),
+            quiz: yup.number()
         }),
         onSubmit: async (values: {[key: string]: number}) => {
             const validated = validateTotal();
@@ -130,7 +132,7 @@ const Settings = () => {
                             <TextField
                                 name='quizzes'
                                 type='number'
-                                value={(formik.values.assessments * 100)}
+                                value={(formik.values.quiz * 100)}
                                 InputProps={{ endAdornment: <Percent fontSize='small' /> }}
                                 onChange={handleChange}
                                 size='small'

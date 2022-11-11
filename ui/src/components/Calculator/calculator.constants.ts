@@ -6,4 +6,7 @@ export const initialData: Grade[] = [{
 },{
     points: 0,
     weight: 'assessment'
+}, {
+    points: 0,
+    weight: 'quiz'
 }];
