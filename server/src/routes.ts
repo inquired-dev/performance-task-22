@@ -4,6 +4,6 @@ import { calculate, getSettings, updateWeightValues } from './controllers/calcul
 export default (app: Application) => {
     app.get('/', (req, res) => res.send('OK'));
     app.get('/settings', getSettings);
-    app.post('/settings', updateWeightValues);
+    app.put('/settings', updateWeightValues);
     app.post('/calculate', calculate);
 };

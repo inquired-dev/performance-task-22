@@ -3,7 +3,7 @@ import { Box, Button, Paper, Typography } from '@mui/material';
 import { calculatorStyles, gradeRowsStyles } from './calculator.styles';
 import GradeRow from './GradeRow';
 import { Grade, GradeWeight } from './calculator.types';
-import { initialData } from './calculator.constants';
+import { GradeTypes, initialData } from './calculator.constants';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { getLetterGrade } from './calculator.service';
@@ -59,7 +59,7 @@ const Calculator = () => {
 
     const handleAddRow = () => {
         const updated = [ ...formik.values ];
-        updated.push({ points: 0, weight: 'homework' });
+        updated.push({ points: 0, weight: GradeTypes.HOMEWORK });
         formik.setValues(updated);
     };
 

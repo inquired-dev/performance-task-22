@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Alert, Box, Button, Divider, IconButton, InputLabel, Paper, Snackbar, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
@@ -14,19 +14,21 @@ const Settings = () => {
     const formik = useFormik({
         initialValues: {
             homework: 0,
-            assessments: 0
+            assessments: 0,
+            quiz: 0,
         },
         enableReinitialize: true,
         validationSchema: yup.object({
             homework: yup.number(),
             assessments: yup.number(),
+            quiz: yup.number(),
         }),
         onSubmit: async (values: {[key: string]: number}) => {
             const validated = validateTotal();
             if ( validated ) {
                 //submit
                 const result = await fetch('http://localhost:8081/settings', {
-                    method: 'POST',
+                    method: 'PUT',
                     mode: 'cors',
                     headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
                     body: JSON.stringify(values)
@@ -48,7 +50,7 @@ const Settings = () => {
         getSettings();
     }, []);
 
-    const getTotal = () => Math.round((formik.values.homework + formik.values.assessments) * 100);
+    const getTotal = () => Math.round((formik.values.homework + formik.values.assessments + formik.values.quiz) * 100);
 
     const validateTotal = () => {
         const total = getTotal();
@@ -56,14 +58,17 @@ const Settings = () => {
         return total === 100;
     };
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        if ( +value < 0 || +value > 100 ) {
-            return;
-        }
-        const converted = +value / 100;
-        formik.setFieldValue(name, converted);
-    };
+    const handleChange = useCallback(
+        (event: ChangeEvent<HTMLInputElement>) => {
+            const { name, value } = event.target;
+            if (+value < 0 || +value > 100) {
+                return;
+            }
+            const converted = +value / 100;
+            formik.setFieldValue(name, converted);
+        },
+        [formik.setFieldValue]
+    );
 
     return (
         <Box paddingTop='5rem'>
@@ -128,9 +133,9 @@ const Settings = () => {
                                 Quiz:
                             </InputLabel>
                             <TextField
-                                name='quizzes'
+                                name='quiz'
                                 type='number'
-                                value={(formik.values.assessments * 100)}
+                                value={(formik.values.quiz * 100)}
                                 InputProps={{ endAdornment: <Percent fontSize='small' /> }}
                                 onChange={handleChange}
                                 size='small'
