@@ -30,7 +30,8 @@ const GradeRow = ({ grade, index, error, handleChange, handleRemoveItem }: Grade
         <RadioGroup name='weight' row value={grade.weight} onChange={(event, value) => handleChange(event, value, index)}>
             <FormControlLabel value='homework' control={StyledRadio} label="Homework" />
             <FormControlLabel value='assessment' control={StyledRadio} label="Test" />
-            <FormControlLabel value='assessment' control={StyledRadio} label="Quiz" />
+            <FormControlLabel value='quiz' control={StyledRadio} label="Quiz" /> 
+            {/* ^^^^^^^^^^^^^^^this needed to be updated to value='quiz' so we can toggle the radio buttons properly and get accurate data  */}
         </RadioGroup>
         {index > 0 && (
             <IconButton color='error' size='small' onClick={handleRemoveItem} sx={{ marginLeft: 'auto' }}>
