@@ -4,8 +4,10 @@ import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { Close, Percent } from '@mui/icons-material';
-
+import { settingData } from './settings.types';
+import { handleGetSettings, handlePostSettings } from '../../actionCreators/actionCreators';
 const Settings = () => {
+
 
     const navigate = useNavigate();
     const [ totalError, setTotalError ] = useState(false);
@@ -14,41 +16,39 @@ const Settings = () => {
     const formik = useFormik({
         initialValues: {
             homework: 0,
-            assessments: 0
+            assessments: 0,
+            quiz:0
         },
         enableReinitialize: true,
         validationSchema: yup.object({
             homework: yup.number(),
             assessments: yup.number(),
         }),
-        onSubmit: async (values: {[key: string]: number}) => {
+        onSubmit: async (values: settingData) => {
             const validated = validateTotal();
             if ( validated ) {
                 //submit
-                const result = await fetch('http://localhost:8081/settings', {
-                    method: 'POST',
-                    mode: 'cors',
-                    headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-                    body: JSON.stringify(values)
-                }).then(res => res.json()).catch(console.error);
-                setFeedback(result);
+                const data=await handlePostSettings(values)
+                setFeedback(data)
+               
             }
         }
     });
 
-    useEffect(() => {
-        // fetch initial weight data:
-        const getSettings = async () => {
-            const result = await fetch('http://localhost:8081/settings')
-                .then(res => res.json()).catch(console.error);
-            if ( result ) {
-                formik.setValues(result);
-            }
-        };
+    const getSettings = async () => {
+
+        const data=await handleGetSettings()
+        const result:any=data
+        if(result)
+        {formik.setValues(result)}
+
+     
+    };
+
+    useEffect(() => {        
         getSettings();
     }, []);
-
-    const getTotal = () => Math.round((formik.values.homework + formik.values.assessments) * 100);
+    const getTotal = () => Math.round((formik.values.homework + formik.values.assessments+formik.values.quiz) * 100);
 
     const validateTotal = () => {
         const total = getTotal();
@@ -128,9 +128,9 @@ const Settings = () => {
                                 Quiz:
                             </InputLabel>
                             <TextField
-                                name='quizzes'
+                                name='quiz'
                                 type='number'
-                                value={(formik.values.assessments * 100)}
+                                value={(formik.values.quiz * 100)}
                                 InputProps={{ endAdornment: <Percent fontSize='small' /> }}
                                 onChange={handleChange}
                                 size='small'

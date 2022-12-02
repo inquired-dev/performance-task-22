@@ -8,7 +8,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { getLetterGrade } from './calculator.service';
 import { Outlet, useNavigate } from 'react-router-dom';
-
+import { handlePostCalculate } from '../../actionCreators/actionCreators';
 const Calculator = () => {
 
     const navigate = useNavigate();
@@ -26,17 +26,14 @@ const Calculator = () => {
             weight: yup.string()
         })),
         onSubmit: async (values: Grade[]) => {
-            const results = await fetch('http://localhost:8081/calculate', {
-                method: 'POST',
-                mode: 'cors',
-                headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-                body: JSON.stringify(values)
-            }).then(res => res.json())
-                .catch((error) => console.error(error));
+            const data=await handlePostCalculate(values)
+            const results:any=data.total
             setCalculatorState({
-                classGrade: results.total,
-                letterGrade: getLetterGrade(results.total)
-            });
+                    classGrade: results,
+                    letterGrade: getLetterGrade(results)
+                })
+
+           
         }
     });
 
@@ -77,7 +74,7 @@ const Calculator = () => {
             <Box
                 component='form'
                 onSubmit={formik.handleSubmit}
-                width='550px'
+                width='650px'
                 height='550px'
                 margin='auto'
                 paddingTop='5rem'>
